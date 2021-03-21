@@ -105,4 +105,4 @@ if(process.env.NODE_ENV === 'production'){
 
 
 const port = process.env.PORT || 4000;
-app.listen(port, () => console.log("running on port 4000"))
+app.listen(port, () => console.log("running on port ",port))

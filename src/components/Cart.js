@@ -3,9 +3,12 @@ import formatCurrency from './util';
 import Fade from "react-reveal/Fade"
 import { connect } from 'react-redux';
 import { removeFromCart } from '../actions/cartActions';
+import { createOrder,clearOrder } from '../actions/orderActions';
+import Modal from 'react-modal';
+import Zoom from 'react-reveal/Zoom';
 
  const Cart = (props) => {
-    const { cartItems } = props;
+    const { cartItems, order } = props;
     const [state, setState] = useState({
         name: "",
         email: "",
@@ -20,6 +23,7 @@ import { removeFromCart } from '../actions/cartActions';
             email: state.email,
             address: state.address,
             cartItems: cartItems,
+            total: cartItems.reduce((a, b) => a + b.price * b.count, 0)
         }
         props.createOrder(order);
 
@@ -28,6 +32,9 @@ import { removeFromCart } from '../actions/cartActions';
     const handleChange = (e) => {
         setState({ ...state, [e.target.name]: e.target.value })
 
+    }
+    const closeModal = () => {
+        props.clearOrder();
     }
 
 
@@ -38,6 +45,45 @@ import { removeFromCart } from '../actions/cartActions';
                     :
                     <div className="cart cart-header">You have {cartItems.length} in the cart</div>
                 }
+                {order && (
+                    <Modal
+                    isOpen={true}
+                    onRequestClose={closeModal}
+                    >
+                        <Zoom>
+                            <button className="close-modal" onClick={closeModal} >x</button>
+                            <div className="order-details">
+                                <h3 className="success-message">Order has been placed</h3>
+                                <h2>Order No. {order._id} </h2>
+                                <ul>
+                                    <li>
+                                        <div>Name:</div>
+                                        <div> {order.name}  </div>
+                                    </li>
+                                    <li>
+                                        <div>Email:</div>
+                                        <div> {order.email}  </div>
+                                    </li>
+                                    <li>
+                                        <div>Address:</div>
+                                        <div> {order.address}  </div>
+                                    </li>
+                                    <li>
+                                        <div>Address:</div>
+                                        <div> {formatCurrency(order.total)}  </div>
+                                    </li>
+
+                                    <li>
+                                        <div>Cart Items</div>
+                                        <div> {order.cartItems.map(x => (
+                                            <div> {x.count} {"X"} {x.title} </div>
+                                        ))}  </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </Zoom>
+                    </Modal>
+                )}
             </div>
             <div>
                 <div className="cart">
@@ -107,7 +153,8 @@ import { removeFromCart } from '../actions/cartActions';
 
 
 export default connect(state => ({
-    cartItems:state.cart.cartItems
+    cartItems:state.cart.cartItems,
+    order:state.order.order
 }),
-{removeFromCart}
+{removeFromCart,createOrder, clearOrder}
 )(Cart);

@@ -4,6 +4,12 @@ const mongoose = require("mongoose");
 const shortId = require("shortid");
 var cors = require('cors')
 
+// import bodyParser from 'body-parser';
+const path = require('path');
+
+// const __dirname = path.resolve(path.dirname(''));
+// console.log(__dirname)
+
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
@@ -80,8 +86,22 @@ app.post("/api/orders",async(req,res) => {
 })
 
 if(process.env.NODE_ENV === 'production'){
-    app.use(express.static('./build'));
+    
+        // app.use(express.static('whatsapp-mern/build'))
+    
+        app.use(express.static(path.join(__dirname, 'build')));
+      // Handle React routing, return all requests to React app
+      app.get('*', function(req, res) {
+        res.sendFile(path.join(__dirname, 'build', 'index.html'));
+      });
+    
 }
+
+app.use(express.static(path.join(__dirname, 'build')));
+// Handle React routing, return all requests to React app
+app.get('*', function(req, res) {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+});
 
 
 const port = process.env.PORT || 4000;

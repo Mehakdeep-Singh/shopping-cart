@@ -34,6 +34,7 @@ const Product = mongoose.model("products", new mongoose.Schema({
 }));
 
 app.get("/api/products", async (req, res) => {
+    console.log("get prod rqst . ..before")
     const products = await Product.find({});
     console.log("get prod rqst . ..")
     res.send(products);
@@ -104,5 +105,5 @@ if(process.env.NODE_ENV === 'production'){
 // });
 
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 4000;
 app.listen(port, () => console.log("running on port ",port))

@@ -1,4 +1,7 @@
+const dotenv = require('dotenv');
+dotenv.config();
+
 module.exports = {
-    mongoURI: 'mongodb://127.0.0.1:27017',
-    secretOrKey: "secret"
+    mongoURI: process.env.MONGO_URI ,
+    secretOrKey: process.env.SECRETORKEY 
   };

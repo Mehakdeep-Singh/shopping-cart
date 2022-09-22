@@ -89,4 +89,4 @@ app.delete("/api/products/:id",async (req,res) => {
 })
 
 const port = process.env.PORT || 4000;
-app.listen(port,() => console.log("running on port 4000"))
+app.listen(port,() => console.log("running on port ",port))

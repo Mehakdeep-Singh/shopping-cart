@@ -3,6 +3,8 @@ import formatCurrency from './util';
 import Fade from "react-reveal/Fade"
 import { connect } from 'react-redux';
 import { removeFromCart } from '../actions/cartActions';
+import { ToastContainer, toast } from 'react-toastify';
+  import 'react-toastify/dist/ReactToastify.css';
 
  const Cart = (props) => {
     const { cartItems } = props;
@@ -21,7 +23,7 @@ import { removeFromCart } from '../actions/cartActions';
             address: state.address,
             cartItems: cartItems,
         }
-        props.createOrder(order);
+        toast("Your Order is Placed!")
 
     }
 
@@ -49,6 +51,9 @@ import { removeFromCart } from '../actions/cartActions';
                                         <img src={item.image} alt={cartItems.title}></img>
                                     </div>
                                     <div>
+                                        {/* {item.availableSizes[0]} */}
+                                    </div>
+                                    <div>
                                         <div>{item.title}</div>
                                         <div className="right">{formatCurrency(item.price)} x {item.count} {" "}</div>
                                         <button onClick={() => props.removeFromCart(props.cartItems,item)}>
@@ -69,7 +74,7 @@ import { removeFromCart } from '../actions/cartActions';
                                 </div>
                                 <button className="primary button" onClick={() => setState({ showCheckOut: true })}>
                                     Proceed
-                    </button>
+                                </button>
                             </div>
                         </div>
                         {state.showCheckOut && (
@@ -90,10 +95,11 @@ import { removeFromCart } from '../actions/cartActions';
                                                 <input name="address" type="text" required onChange={handleChange}></input>
                                             </li>
                                             <li>
-                                                <button className="button primary" type="submit">Checkout</button>
+                                                <button className="button primary"   type="submit">Checkout</button>
                                             </li>
                                         </ul>
                                     </form>
+                                    <ToastContainer />
                                 </Fade>
 
                             </div>

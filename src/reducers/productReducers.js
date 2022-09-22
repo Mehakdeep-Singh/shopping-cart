@@ -3,7 +3,6 @@
 const { FETCH_PRODUCTS, FILTER_PRODUCTS_BY_SIZE, ORDER_PRODUCTS_BY_PRICE } = require("../types");
 
 export const productReducer = (state = {}, action) => {
-    console.log("in reducerrrrrrrrrrr")
     switch (action.type) {
         case FILTER_PRODUCTS_BY_SIZE:
             return {

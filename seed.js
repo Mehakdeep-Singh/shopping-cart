@@ -1,13 +1,14 @@
 const mongoose = require("mongoose");
 const shortId = require("shortid");
 const Product = require('./models/product')
+const keys = require('./config/keys')
 
-
-my_mongo_address = 'mongodb://127.0.0.1:27017'
+// should add in env
+my_mongo_address = keys.mongoURI
 
 mongoose.connect(my_mongo_address,{
     useNewUrlParser:true,
-    useCreateIndex:true,
+    // useCreateIndex:true,
     useUnifiedTopology:true,
 },
 (err) => {

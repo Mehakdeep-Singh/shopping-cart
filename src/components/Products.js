@@ -22,6 +22,13 @@ function Products(props) {
         modalSetState(null);
     }
 
+
+    const deleteProduct = async(id) => {
+        await fetch(`http://localhost:4000/api/products/${id}`, { method: 'DELETE' });
+        
+        props.fetchProducts();
+    }
+
     return (
         <div>
             <Fade bottom cascade>
@@ -46,6 +53,13 @@ function Products(props) {
                                             <button onClick={() => props.addToCart(props.cartItems,product)} className="button primary">
                                                 Add to cart
                                             </button>
+                                            { props.adminView && <> <button onClick={() => deleteProduct(product._id)} className="button primary">
+                                                delete
+                                            </button>
+                                            <button onClick={() => props.editProduct(product._id)} className="button primary">
+                                                Edit Product
+                                            </button></>}
+                                           
                                         </div>
                                     </div>
 
@@ -57,7 +71,6 @@ function Products(props) {
             {modalState && (
                 <Modal isOpen={true} onRequestClose={closeModal}>
                     <Zoom>
-                        <div>Modal</div>
                         <button onClick={closeModal} className="close-modal">X</button>
                         <div className="product-details">
                             <img src={modalState.image} alt={modalState.title}></img>
@@ -82,7 +95,7 @@ function Products(props) {
                                     <button
                                         className="button primary"
                                         onClick={() => {
-                                            props.addToCart(modalState);
+                                            props.addToCart(props.cartItems,modalState);
                                             closeModal();
                                         }}
                                     >

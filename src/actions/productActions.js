@@ -19,7 +19,7 @@ export const filterProducts = (products, size) => (dispatch) => {
                     ?
                     products
                     :
-                    products.filter(x => x.availableSizes.indexOf(size )>= 0)
+                    products.filter(x => x.availableSizes.indexOf(size ) !== -1) 
         }
 
     })
